@@ -16,7 +16,7 @@ var PhotoSchema = new Schema({
 		required: 'Please fill Photo name',
 		trim: true
 	},
-        image: {
+    image: {
         type: String,
         default: ''
         },
@@ -27,6 +27,14 @@ var PhotoSchema = new Schema({
 	user: {
 		type: Schema.ObjectId,
 		ref: 'User'
+	},
+	views: {
+		type: Number,
+		default: 0
+	},
+	likes: {
+		type: Number,
+		default: 0
 	}
 });
 

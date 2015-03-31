@@ -37,7 +37,15 @@ exports.create = function(req, res) {
  * Show the current Photo
  */
 exports.read = function(req, res) {
-	res.jsonp(req.photo);
+	req.photo.views += 1;
+	req.photo.save(function(err) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else 
+			res.jsonp(req.photo);
+		});
 };
 
 /**

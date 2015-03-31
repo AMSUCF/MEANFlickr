@@ -10,13 +10,28 @@
 			<i class="glyphicon glyphicon-trash"></i>
 		</a>
 	</div>
-	<small>
-		<em class="text-muted">
+	<div>
+		<h2>
 			Posted on
 			<span data-ng-bind="photo.created | date:'mediumDate'"></span>
 			by
 			<span data-ng-bind="photo.user.displayName"></span>
-			<image src="{{photo.image}}"/>
-		</em>
-	</small>
+		</h2>
+		</div>
+		<div>
+		<h2>
+			Likes: <span data-ng-bind="photo.likes"></span>
+			Views: <span data-ng-bind="photo.views"></span>
+		</h2>
+		</div>
+		<div>
+		<h2>
+			<button class="btn btn-success" ng-click="likeThis()" id="btn-like" data-id="{{ image.uniqueId }}"><i class="fa fa-heart">Like</i></button>
+			
+		</h2>
+		</div>
+		<div class="page-body">
+			<image ng-src="{{photo.image}}"/>
+		</div>
+	</div>
 </section>

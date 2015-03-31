@@ -15,7 +15,7 @@ angular.module('photos').controller('PhotosController', ['$scope', '$stateParams
 		    $location.path('photos/' + response._id);
 
 		    // Clear form fields
-		    $scope.name = '';
+					$scope.name = '';
 
                     $scope.image = '';
 		  }, function(errorResponse) {
@@ -63,5 +63,17 @@ angular.module('photos').controller('PhotosController', ['$scope', '$stateParams
 				photoId: $stateParams.photoId
 			});
 		};
-	}
-]);
+		//Like a photo
+		$scope.likeThis = function() {
+			$scope.photo.likes +=1;
+			var photo = $scope.photo;
+			
+			console.log('like function called');
+			//saves the photo -- note the authorization problem in this version
+			photo.$update(function() {
+				$location.path('photos/' + photo._id);
+			}, function(errorResponse) {
+				$scope.error = errorResponse.data.message;
+			});
+		};
+}]);

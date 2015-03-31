@@ -4,6 +4,7 @@ module.exports = function(app) {
   var users = require('../../app/controllers/users.server.controller');
   var photos = require('../../app/controllers/photos.server.controller');
   var multer = require('multer');
+  
   app.use(multer({ dest:'./public/uploads'}));
   // Photos Routes
   app.route('/photos')
@@ -17,4 +18,5 @@ module.exports = function(app) {
 
 	// Finish by binding the Photo middleware
 	app.param('photoId', photos.photoByID);
+	
 };
