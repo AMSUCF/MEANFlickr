@@ -20,13 +20,14 @@
 		</div>
 		<div>
 		<h2>
-			Likes: <span data-ng-bind="photo.likes"></span>
+			Likes: <span data-ng-bind="photo.likes.length-1"></span>
 			Views: <span data-ng-bind="photo.views"></span>
 		</h2>
 		</div>
 		<div>
 		<h2>
-			<button class="btn btn-success" ng-click="likeThis()" id="btn-like" data-id="{{ image.uniqueId }}"><i class="fa fa-heart">Like</i></button>
+		
+			<button class="btn btn-success" ng-click="likeThis()" id="btn-like" data-id="{{ image.uniqueId }}" ng-show="!isLiked && authentication.user._id"><i class="fa fa-heart">Like</i></button>
 			
 		</h2>
 		</div>

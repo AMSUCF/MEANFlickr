@@ -32,10 +32,10 @@ var PhotoSchema = new Schema({
 		type: Number,
 		default: 0
 	},
-	likes: {
-		type: Number,
-		default: 0
-	}
+	likes: [{
+	  type: Schema.ObjectId,
+          ref: 'User'
+	}]
 });
 
 mongoose.model('Photo', PhotoSchema);
