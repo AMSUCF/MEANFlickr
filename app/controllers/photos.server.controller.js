@@ -1,5 +1,5 @@
 'use strict';
-
+var path = require('path');
 /**
  * Module dependencies.
  */
@@ -12,23 +12,21 @@ var mongoose = require('mongoose'),
  * Create a Photo
  */
 exports.create = function(req, res) {
-  console.log(req.body);
-  console.log(req.files);
   var photo = new Photo(req.body);
   photo.user = req.user;
   photo.likes.push(req.user._id);
-  if(req.files.image) {
-    photo.image =req.files.image.path.substring(7);
-    console.log(photo.image);
+  if(req.files.file) {
+    photo.image =req.files.file.path.substring(req.files.file.path.indexOf(path.sep)+path.sep.length-1);
   }  else
     photo.image='default.jpg';
   photo.save(function(err) {
     if (err) {
+      console.log('detected error:',errorHandler.getErrorMessage(err));
       return res.status(400).send({
 	message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.redirect('/#!/photos/'+photo._id); // redirection to '/'jsonp(photo);
+      res.json({_id:photo._id});
     }
   });
 };
@@ -37,9 +35,7 @@ exports.create = function(req, res) {
  * Show the current Photo
  */
 exports.read = function(req, res) {
-
   var photo = req.photo;
-  console.log(photo);
   //  photo = _.extend(photo , req.body);
   photo.views += 1;
   photo.save(function(err) {
@@ -48,7 +44,8 @@ exports.read = function(req, res) {
       return res.status(400).send({
 	message: errorHandler.getErrorMessage(err)
       });
-    } else 
+    } else
+      console.log(photo);
       res.jsonp(photo);
   });
 };

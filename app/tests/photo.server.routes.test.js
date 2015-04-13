@@ -127,6 +127,7 @@ describe('Photo CRUD tests', function() {
 			.send(credentials)
 			.expect(200)
 			.end(function(signinErr, signinRes) {
+                  console.log('Signed in');
 				// Handle signin error
 				if (signinErr) done(signinErr);
 
@@ -138,12 +139,13 @@ describe('Photo CRUD tests', function() {
 					.send(photo)
 					.expect(200)
 					.end(function(photoSaveErr, photoSaveRes) {
+                                  console.log('Photo saved error', photoSaveErr);
 						// Handle Photo save error
 						if (photoSaveErr) done(photoSaveErr);
 
 						// Update Photo name
 						photo.name = 'WHY YOU GOTTA BE SO MEAN?';
-
+                                  console.log(photoSaveRes.body);
 						// Update existing Photo
 						agent.put('/photos/' + photoSaveRes.body._id)
 							.send(photo)

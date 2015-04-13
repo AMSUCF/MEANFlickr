@@ -103,17 +103,21 @@
 			});
 
 			// Fixture mock form input values
-			scope.name = 'New Photo';
+			scope.imageName = 'New Photo';
 
+                                                                                                                                                     var formData = new FormData();
+                                                                                                                                                     formData.append('name','New Photo');
+                                                                                                                                                     formData.append('file','');
 			// Set POST response
-			$httpBackend.expectPOST('photos', samplePhotoPostData).respond(samplePhotoResponse);
+			                            //samplePhotoPostData
+                                                                                                                                                     $httpBackend.expectPOST('photos', formData).respond(samplePhotoResponse);
 
 			// Run controller functionality
 			scope.create();
 			$httpBackend.flush();
 
 			// Test form inputs are reset
-			expect(scope.name).toEqual('');
+			expect(scope.imageName).toEqual('');
 
 			// Test URL redirection after the Photo was created
 			expect($location.path()).toBe('/photos/' + samplePhotoResponse._id);

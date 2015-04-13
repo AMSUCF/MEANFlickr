@@ -1,25 +1,27 @@
 'use strict';
 
 //note addition of $http
-angular.module('photos').controller('PhotosController', ['$scope', '$stateParams', '$http', '$location', 'Authentication', 'Photos',  
-	function($scope, $stateParams, $http, $location, Authentication, Photos) {
+angular.module('photos')
+.controller('PhotosController', ['$scope', '$stateParams', '$location', '$http', 'Authentication', 'Photos',  
+	function($scope, $stateParams, $location, $http, Authentication, Photos) {
 	  $scope.authentication = Authentication;
 
 	  $scope.likes = 0;
 	  $scope.isLiked = false;
 		// Create new Photo
+
 	  $scope.create = function() {
 	    // Create new Photo object
 	    var photo = new Photos ({
-	      name: this.name
+	      name: $scope.imageName,
+              file: $scope.imageFile
 	    });
 	    photo.$save(function(response) {
 	      $location.path('photos/' + response._id);
-
 	      // Clear form fields
-	      $scope.name = '';
+	      $scope.imageName = '';
+              $scope.imageFile = '';
 
-              $scope.image = '';
 	    }, function(errorResponse) {
 		 $scope.error = errorResponse.data.message;
 	       });
@@ -61,23 +63,23 @@ angular.module('photos').controller('PhotosController', ['$scope', '$stateParams
 
 	  // Find existing Photo
 	  $scope.findOne = function() {
-            console.log('Finding one:' + $stateParams.photoId);
 	    $scope.photo = Photos.get({ 
 	      photoId: $stateParams.photoId
 	    },function(){
-                console.log('Photo found');
                 var user = $scope.authentication.user;
                 var containsValue=false;
-                console.log('ID '+$scope.authentication.user._id);
-                $scope.likes = $scope.photo.likes.length;
-                for(var i=0; i<$scope.photo.likes.length; i++) {
-                  console.log('Comparing ' + $scope.photo.likes[i] + ' to ' + user._id + ' is ' + ($scope.photo.likes[i]===user._id).toString());
-                  if($scope.photo.likes[i]===user._id) {
-                    containsValue = true;
-                  }
-                }
+                if($scope.authentication.user) {
+					console.log('ID '+$scope.authentication.user._id);
+					$scope.likes = $scope.photo.likes.length;
+					for(var i=0; i<$scope.photo.likes.length; i++) {
+						console.log('Comparing ' + $scope.photo.likes[i] + ' to ' + user._id + ' is ' + ($scope.photo.likes[i]===user._id).toString());
+						if($scope.photo.likes[i]===user._id) {
+							containsValue = true;
+						}
+					}
+				}
                 $scope.isLiked = containsValue;
-              });
+              },function(){console.log('error');});
 
 	  };
           
@@ -92,4 +94,19 @@ angular.module('photos').controller('PhotosController', ['$scope', '$stateParams
 	    });
 
          };   
-        }]);
+        }])
+.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+            
+            element.bind('change', function(){
+                scope.$apply(function(){
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}]);
