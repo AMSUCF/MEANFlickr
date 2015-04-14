@@ -3,7 +3,7 @@
         <h1>Photos</h1>
     </div>
     <div class="list-group">
-        <a data-ng-repeat="photo in photos" data-ng-href="#!/photos/{{photo._id}}" class="list-group-item">
+        <a data-ng-repeat="photo in photos" data-ng-href="#!/photos/{{photo._id}}" class="list-group-item" ng-swipe-right="hide(index)">
 			<small class="list-group-item-text">
 				Posted on
 				<span data-ng-bind="photo.created | date:'medium'"></span>

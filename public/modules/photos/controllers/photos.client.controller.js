@@ -27,7 +27,10 @@ angular.module('photos')
 	       });
             
 	  };
-
+	  //Swipe to remove photo from display
+	  $scope.hide = function($index) {
+		$scope.photos.splice($index,1);
+	  };
 	  // Remove existing Photo
 	  $scope.remove = function(photo) {
 	    if ( photo ) { 
