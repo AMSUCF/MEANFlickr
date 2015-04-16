@@ -1,0 +1,40 @@
+	<div ng-controller="TimelineController">
+
+	
+		<div id="search-container" class="row">
+			<div class="col-lg-3">
+
+				<!-- this form will trigger the getTweets function in the javascript controller on submit -->
+				<form class="input-group" ng-submit="getTweets()" >
+	  			<span class="input-group-addon">@</span>
+
+					<!-- this text input is binded to a variable in the javascript controller -->
+				  <input type="text" class="form-control" placeholder="Twitter" ng-model="username">
+
+					<span class="input-group-btn">
+		        <button class="btn btn-default" type="submit">Get Tweets</button>
+		      </span>
+
+				</form>
+   		</div>
+		</div>
+
+		<div class="row clearfix">
+			<div class="col-lg-12">
+
+		    	<div id="tweet-list">
+
+		    		<!-- this div will repeat for every tweet object in the array using a template-expanding directive -->
+		    		<div ng-repeat="tweet in tweetsResult" class="tweet-item">
+							{{tweet.text}}
+							<div>
+								Tweeted from <span>{{tweet.user.screen_name}}</span>
+							</div>
+		    		</div>
+
+		    	</div>
+
+		  </div>
+  	</div>
+
+	</div>
